@@ -6,13 +6,25 @@ using Persistence;
 
 namespace Application.Expenses;
 
+public record Expenses
+{
+    public List<Expense> Data {
+        get;
+    }
+
+    public Expenses(List<Expense> expenses)
+    {
+        Data = expenses;
+    }
+}
+
 public class List
 {
-    public class Query : IRequest<Result<List<Expense>>>
+    public class Query : IRequest<Result<Expenses>>
     {
     }
 
-    public class Handler : IRequestHandler<Query, Result<List<Expense>>>
+    public class Handler : IRequestHandler<Query, Result<Expenses>>
     {
         private readonly DataContext _context;
 
@@ -21,10 +33,10 @@ public class List
             _context = context;
         }
 
-        public async Task<Result<List<Expense>>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Result<Expenses>> Handle(Query request, CancellationToken cancellationToken)
         {
             var expenses = await _context.Expenses.ToListAsync();
-            return Result<List<Expense>>.Success(expenses);
+            return Result<Expenses>.Success(new Expenses(expenses));
         }
     }
 }

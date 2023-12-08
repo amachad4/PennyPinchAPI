@@ -1,10 +1,10 @@
 using Application.Expenses;
 using Microsoft.AspNetCore.Mvc;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace API.Controllers;
-
 public class ExpensesController : BaseApiController
 {
     [HttpGet]
